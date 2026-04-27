@@ -1,0 +1,46 @@
+schema_version: 1
+
+context:
+  name: de-strahlenschutz
+  version: "1.0.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/de-strahlenschutz-${{ version }}.tar.gz
+  sha256: 460d27b87dcc174b09b7a2142d40ce65250dc35a4d599dd14211374cd82c3b13
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - poetry
+  run:
+    - python >=${{ python_min }}
+    - python-dateutil
+    - urllib3 >=1.25.3
+
+tests:
+  - python:
+      imports:
+        - deutschland.strahlenschutz
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: ODL-Info API
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+  homepage: https://github.com/bundesAPI/strahlenschutz-api
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
